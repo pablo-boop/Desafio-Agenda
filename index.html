@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="assets/js/script.js"></script>
     <title>Agenda Telefônica</title>
@@ -11,28 +12,33 @@
     <main>
         <h1>Agenda Telefônica</h1>
         <div id="global">
-            <div id="input-fields">
-                <input id="name" type="text" placeholder="Nome Completo">
-                <input id="fixPhone" type="number" placeholder="Telefone fixo">
-                <input id="celphone" type="number" placeholder="Telefone celular">
-                <input id="img" type="text" placeholder="URL da foto">
-                <input id="date" type="date">
-                <input id="email" type="text" placeholder="Email">
-                <input id="cep" type="number" placeholder="CEP">
-                <input id="city" type="text" placeholder="Cidade">
-                <input id="instagram" type="text" placeholder="@Instagram">
-                <input id="github" type="text" placeholder="@GitHub">
-                <div id="button-container">
-                    <button id="submit" onclick="createContact()">Adicionar Contato</button>
-                    <div id="msg"></div>
+            <div id="container">
+                <div id="input-fields">
+                    <input id="name" type="text" placeholder="Nome Completo">
+                    <input id="fixPhone" type="number" placeholder="Telefone fixo">
+                    <input id="celphone" type="number" placeholder="Telefone celular">
+                    <input id="img" type="text" placeholder="URL da foto">
+                    <input id="date" type="date">
+                    <input id="email" type="text" placeholder="Email">
+                    <input id="cep" type="number" placeholder="CEP">
+                    <input id="city" type="text" placeholder="Cidade">
+                    <input id="instagram" type="text" placeholder="@Instagram">
+                    <input id="github" type="text" placeholder="@GitHub">
+                    <div id="button-container">
+                        <button id="submit" onclick="createContact()">Adicionar Contato</button>
+                        <div id="msg"></div>
+                    </div>
+                </div>
+                <div id="favorites" class="hidden">
+
+                </div>
+                <div id="list" class="hidden">
+        
                 </div>
             </div>
-            <div id="list" class="hidden">
-    
+            <div id="details-card" class="hidden">
+                
             </div>
-        </div>
-        <div id="details-card" class="hidden">
-
         </div>
     </main>
 </body>

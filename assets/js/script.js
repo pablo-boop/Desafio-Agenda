@@ -1,5 +1,5 @@
 class Contact {
-    constructor(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github) {
+    constructor(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites) {
         this.name = name;
         this.fixPhone = fixPhone;
         this.celphone = celphone;
@@ -10,6 +10,7 @@ class Contact {
         this.city = city;
         this.instagram = instagram;
         this.github = github;
+        this.favorites = favorites;
     }
 }
 
@@ -18,13 +19,13 @@ class ContactList {
         this.contacts = [];
     }
 
-    add(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github) {
+    add(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites) {
         if(emptyInputs()) {
             sendMSG("Preencha todos os campos", "error")
         } else if(!isURLValida(img)) {
             sendMSG("URL inválido", "error")
         } else {
-            const contact = new Contact(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github);
+            const contact = new Contact(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites = false);
             sendMSG("Parabéns, cadastro feito com sucesso!", "success")
             this.contacts.push(contact)
             cleanInputs()
@@ -78,46 +79,34 @@ class ContactList {
         let dd = d[2]
         let mm = d[1]
         let yy = d[0]
-
+        
         return `${dd} / ${mm} / ${yy}`
     }
 }
 
 const contactList = new ContactList();
 
-function showDetails() {
-    document.getElementById("details-card").classList.remove("hidden");
-    const detailsContact = document.getElementById("details-card");
-    detailsContact.innerHTML = "";
+function heartClick() {
+    document.getElementById("list").classList.remove("hidden");
+    const contactJournal = document.getElementById("list");
+    contactJournal.innerHTML = "";
 
     contactList.contacts.forEach((contact) => {
+        const cardDiv = 
         `
-        <div id="global-detail">
-            <img id="card-img" src="${contact.img}"><img>
+        <button class="card" onclick="showDetails()">
+            <div id="top">
+                <img id="card-img" src="${contact.img}"><img>
+                    <i class="fa-regular fa-heart"></i>
+            </div>
             <div id="infos">
                 <h3>${contact.name}</h3>
                 <p>Celular: ${formatedCellphone(contact.celphone)}</p>
                 <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
-                <p>Data de aniversário: ${contactList.formatDate(contact.date)}</p>
-                <p>Idade: ${contactList.calculateAge(contact.date)}</p>
-                <p>Signo: ${contactList.getZodiacSign(contact.date)}</p>
-                <p>Email: ${contact.mail}</p>
-                <p>CEP: ${contact.cep}</p>
-                <p>Cidade: ${contact.city}</p>
-                <p>Instagram: ${contact.instagram}</p>
-                <p>GitHub: ${contact.github}</p>
-            </div>
-            <div id="social">
-                <a href="https://instagram.com/${contact.instagram}" target="_blank">
-                    <img class="icons" src="https://cdn-icons-png.flaticon.com/512/87/87390.png"></img>
-                </a>    
-                <a href="https://github.com/${contact.github}" target="_blank">
-                    <img class="icons" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"></img>
-                </a>
-            </div>
-        </div>
+        </button>
         `
-    })
+        contactJournal.innerHTML += cardDiv;
+    });
 }
 
 function showContacts() {
@@ -130,7 +119,10 @@ function showContacts() {
         const cardDiv = 
         `
         <button class="card" onclick="showDetails()">
-            <img id="card-img" src="${contact.img}"><img>
+            <div id="top">
+                <img id="card-img" src="${contact.img}"><img>
+                    <i class="fa-regular fa-heart"></i>
+            </div>
             <div id="infos">
                 <h3>${contact.name}</h3>
                 <p>Celular: ${formatedCellphone(contact.celphone)}</p>
@@ -138,6 +130,45 @@ function showContacts() {
         </button>
         `
         contactJournal.innerHTML += cardDiv;
+    });
+}
+
+function showDetails() {
+    console.log("Passou aqui");
+    document.getElementById("details-card").classList.remove("hidden");
+    const detailsContact = document.getElementById("details-card");
+    detailsContact.innerHTML = "";
+
+    contactList.contacts.forEach((contact) => {
+        const divDetails =
+        `
+        <div id="global-detail">
+            <img id="card-img-detail" src="${contact.img}"><img>
+            <div id="infos-details">
+                <h3>${contact.name}</h3>
+                <p>Celular: ${formatedCellphone(contact.celphone)}</p>
+                <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
+                <p>Data de aniversário: ${contactList.formatDate(contact.date)}</p>
+                <p>Idade: ${contactList.calculateAge(contact.date)}</p>
+                <p>Signo: ${contactList.getZodiacSign(contact.date)}</p>
+                <p>Email: ${contact.mail}</p>
+                <p>CEP: ${contact.cep}</p>
+                <p>Cidade: ${contact.city}</p>
+                <p>Instagram: ${contact.instagram}</p>
+                <p>GitHub: ${contact.github}</p>
+                <p>Favorito: ${contact.favorites}</p>
+            </div>
+            <div id="social-details">
+                <a href="https://instagram.com/${contact.instagram}" target="_blank">
+                    <img class="icons" src="https://cdn-icons-png.flaticon.com/512/87/87390.png"></img>
+                </a>    
+                <a href="https://github.com/${contact.github}" target="_blank">
+                    <img class="icons" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"></img>
+                </a>
+            </div>
+        </div>
+        `
+        detailsContact.innerHTML += divDetails;
     });
 }
 
@@ -217,8 +248,6 @@ function isURLValida(url) {
 }
 
 function formatedCellphone(cellphone) {
-    console.log("Passou pela funcao formatedCellphone()");
-
     let cellphoneArray = cellphone.split("");
     let cellphoneFormated = "(" + cellphoneArray[0] + cellphoneArray[1] + ")"
         + " " + cellphoneArray[2] + cellphoneArray[3] + cellphoneArray[4]
