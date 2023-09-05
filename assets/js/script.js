@@ -21,10 +21,10 @@ class ContactList {
         this.favoriteContacts = [];
     }
 
-    add(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github) {
-        if(emptyInputs()) {
+    add(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites) {
+        if (emptyInputs()) {
             sendMSG("Preencha todos os campos", "error")
-        } else if(!isURLValida(img)) {
+        } else if (!isURLValida(img)) {
             sendMSG("URL inválido", "error")
         } else {
             const contact = new Contact(generateId(), name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites = false);
@@ -39,7 +39,7 @@ class ContactList {
         let day = birthdate[2];
         let month = birthdate[1];
         console.log("Passou pelo getSigno() da class User");
-    
+
         if ((month == 1 && day <= 20) || (month == 12 && day >= 22)) {
             return "Capricórnio ♑";
         } else if ((month == 1 && day >= 21) || (month == 2 && day <= 18)) {
@@ -81,16 +81,16 @@ class ContactList {
         let dd = d[2]
         let mm = d[1]
         let yy = d[0]
-        
+
         return `${dd} / ${mm} / ${yy}`
     }
 
     favoriteContact(id) {
         this.contacts.forEach((contact) => {
-          if (contact.id == id) {
-            contact.favorites = true;
-          }
-          this.favoriteContacts.push(contact);
+            if (contact.id == id) {
+                contact.favorites = true;
+            }
+            this.favoriteContacts.push(contact);
         });
 
     }
@@ -110,7 +110,6 @@ function removeContact(id) {
     contactList.deleteContact(id);
     showDetails();
     showContacts();
-    showFavorites();
 }
 
 function favoriteContact(id) {
@@ -125,13 +124,12 @@ function showContacts() {
     contactJournal.innerHTML = "";
 
     contactList.contacts.forEach((contact) => {
-        const cardDiv = 
-        `
+        const cardDiv =
+            `
         <div id="global-list">
         <button class="card" onclick="showDetails()">
-           <div>
+           <div id="content-card">
             <img id="card-img-detail" src="${contact.img}"><img>
-            <h3>${contact.name}</h3>
             <p>Celular: ${formatedCellphone(contact.celphone)}</p>
             <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
            </div>
@@ -148,31 +146,27 @@ function showContacts() {
 }
 
 function showFavorites() {
-    if(contactList.favoriteContacts.length != 0) {
-        document.getElementById("favorites").classList.remove("hidden");
-        const favoritesList = document.getElementById("favorites");
-    
-        contactList.favoriteContacts.forEach((contact) => {
-                const favoriteDiv = 
+    document.getElementById("favorites").classList.remove("hidden");
+    const favoritesList = document.getElementById("favorites");
+    contactList.contacts.forEach((contact) => {
+        if(contact.favorites == true) {
+            const cardDiv =
                 `
-                <div id="global-list">
+                <div id="global-list-favorites">
                 <button class="card" onclick="showDetails()">
                    <div>
                     <img id="card-img-detail" src="${contact.img}"><img>
-                    <h2>${contact.name}</h2>
                     <p>Celular: ${formatedCellphone(contact.celphone)}</p>
                     <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
                    </div>
-                   <div id="actions">
+                   <div>
+                   </div>
                 </button>
                 </div>
                 `
-                favoritesList.innerHTML += favoriteDiv;
-        });
-    } else {
-        document.getElementById("favorites").classList.add("hidden");
-    }
-
+            favoritesList.innerHTML += cardDiv;
+        }
+    });
 }
 
 function showDetails() {
@@ -182,47 +176,47 @@ function showDetails() {
     detailsContact.innerHTML = "";
 
     contactList.contacts.forEach((contact) => {
-        const divDetails =
-        `
-        <div id="global-detail">
-            <img id="card-img-detail" src="${contact.img}"><img>
-            <div id="infos-details">
-                <h3>${contact.name}</h3>
-                <p>${contact.id}</p>
-                <p>Celular: ${formatedCellphone(contact.celphone)}</p>
-                <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
-                <p>Data de aniversário: ${contactList.formatDate(contact.date)}</p>
-                <p>Idade: ${contactList.calculateAge(contact.date)}</p>
-                <p>Signo: ${contactList.getZodiacSign(contact.date)}</p>
-                <p>Email: ${contact.mail}</p>
-                <p>CEP: ${contact.cep}</p>
-                <p>Cidade: ${contact.city}</p>
-                <p>Instagram: ${contact.instagram}</p>
-                <p>GitHub: ${contact.github}</p>
-                <p>Favorito: ${contact.favorites}</p>
-            </div>
-            <div id="social-details">
-                <a href="https://instagram.com/${contact.instagram}" target="_blank">
-                    <img class="icons" src="https://cdn-icons-png.flaticon.com/512/87/87390.png"></img>
-                </a>    
-                <a href="https://github.com/${contact.github}" target="_blank">
-                    <img class="icons" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"></img>
-                </a>
-            </div>
-            <div id="actions">
-                <button class="actions-button" onclick="removeContact(${contact.id})">
-                        <i class="fa-solid fa-trash"></i>
+            const divDetails =
+                `
+            <div id="global-detail">
+                <img id="card-img-detail" src="${contact.img}"><img>
+                <div id="infos-details">
+                    <h3>${contact.name}</h3>
+                    <p>ID: ${contact.id}</p>
+                    <p>Celular: ${formatedCellphone(contact.celphone)}</p>
+                    <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
+                    <p>Data de aniversário: ${contactList.formatDate(contact.date)}</p>
+                    <p>Idade: ${contactList.calculateAge(contact.date)}</p>
+                    <p>Signo: ${contactList.getZodiacSign(contact.date)}</p>
+                    <p>Email: ${contact.mail}</p>
+                    <p>CEP: ${contact.cep}</p>
+                    <p>Cidade: ${contact.city}</p>
+                    <p>Instagram: ${contact.instagram}</p>
+                    <p>GitHub: ${contact.github}</p>
+                    <p>Favorito: ${contact.favorites}</p>
+                </div>
+                <div id="social-details">
+                    <a href="https://instagram.com/${contact.instagram}" target="_blank">
+                        <img class="icons" src="https://cdn-icons-png.flaticon.com/512/87/87390.png"></img>
+                    </a>    
+                    <a href="https://github.com/${contact.github}" target="_blank">
+                        <img class="icons" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"></img>
+                    </a>
+                </div>
+                <div id="actions">
+                    <button class="actions-button" onclick="removeContact(${contact.id})">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
                     </button>
-                </button>
+                </div>
             </div>
-        </div>
-        `
-        detailsContact.innerHTML = divDetails;
+            `
+            detailsContact.innerHTML += divDetails;
     });
 }
 
 function createContact() {
-    const name = document.getElementById("name").value; 
+    const name = document.getElementById("name").value;
     const fixPhone = document.getElementById("fixPhone").value;
     const celphone = document.getElementById("celphone").value;
     const img = document.getElementById("img").value;
@@ -239,7 +233,7 @@ function createContact() {
 }
 
 function emptyInputs() {
-    let name = document.getElementById("name").value; 
+    let name = document.getElementById("name").value;
     let fixPhone = document.getElementById("fixPhone").value;
     let celphone = document.getElementById("celphone").value;
     let img = document.getElementById("img").value;
@@ -250,7 +244,7 @@ function emptyInputs() {
     let instagram = document.getElementById("instagram").value;
     let github = document.getElementById("github").value;
 
-    if(name == "" && fixPhone == "" && celphone == "" && img == "" && date == "" && mail == "" && cep == "" && city == "" && instagram == "" && github == "") {
+    if (name == "" && fixPhone == "" && celphone == "" && img == "" && date == "" && mail == "" && cep == "" && city == "" && instagram == "" && github == "") {
         return true
     } else if (name == "" || fixPhone == "" || celphone == "" || img == "" || date == "" || mail == "" || cep == "" || city == "" || instagram == "" || github == "") {
         return true
@@ -260,19 +254,19 @@ function emptyInputs() {
 }
 
 function cleanInputs() {
-    document.getElementById("name").value = ""; 
-    document.getElementById("fixPhone").value = ""; 
-    document.getElementById("celphone").value = ""; 
-    document.getElementById("img").value = ""; 
-    document.getElementById("date").value = ""; 
-    document.getElementById("email").value = ""; 
-    document.getElementById("cep").value = ""; 
-    document.getElementById("city").value= ""; 
-    document.getElementById("instagram").value = ""; 
-    document.getElementById("github").value = ""; 
+    document.getElementById("name").value = "";
+    document.getElementById("fixPhone").value = "";
+    document.getElementById("celphone").value = "";
+    document.getElementById("img").value = "";
+    document.getElementById("date").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("cep").value = "";
+    document.getElementById("city").value = "";
+    document.getElementById("instagram").value = "";
+    document.getElementById("github").value = "";
 }
 
-function sendMSG(msg,type){  
+function sendMSG(msg, type) {
     // Como type vai ser a class, será ou error ou success
     const msgDiv = document.getElementById("msg");
     msgDiv.innerHTML = "";
@@ -283,13 +277,13 @@ function sendMSG(msg,type){
 
     msgDiv.innerHTML += msgP;
 
-    setTimeout(function(){
+    setTimeout(function () {
         msgDiv.innerHTML = "";
     }, 3000);
 }
 
 function isURLValida(url) {
-    if(url.match(/\.(jpeg|jpg|gif|png)$/) != null){
+    if (url.match(/\.(jpeg|jpg|gif|png)$/) != null) {
         return true;
     } else {
         return false;
