@@ -156,9 +156,6 @@ function showFavorites() {
                     <img id="card-img-detail" src="${contact.img}"><img>
                     <p>Celular: ${formatedCellphone(contact.celphone)}</p>
                     <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
-                   </div>
-                   <div>
-                   </div>
                 </button>
                 </div>
                 `

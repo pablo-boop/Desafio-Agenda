@@ -73,6 +73,8 @@ input {
 #favorites {
     margin: 1rem;
     color: #fff;
+    height: 75vh;
+    overflow-y: auto;
 }
 
 #infos {
