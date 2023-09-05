@@ -85,16 +85,14 @@ class ContactList {
 
 const contactList = new ContactList();
 
-function showContacts() {
-
-    document.getElementById("list").classList.remove("hidden");
-    const contactJournal = document.getElementById("list");
-    contactJournal.innerHTML = "";
+function showDetails() {
+    document.getElementById("details-card").classList.remove("hidden")
+    const detailsContact = document.getElementById("details-card");
+    detailsContact.innerHTML = "";
 
     contactList.contacts.forEach((contact) => {
-        const cardDiv = 
         `
-        <button class="card">
+        <div id="global-detail">
             <img id="card-img" src="${contact.img}"><img>
             <div id="infos">
                 <h3>${contact.name}</h3>
@@ -117,6 +115,26 @@ function showContacts() {
                     <img class="icons" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"></img>
                 </a>
             </div>
+        </div>
+        `
+    })
+}
+
+function showContacts() {
+
+    document.getElementById("list").classList.remove("hidden");
+    const contactJournal = document.getElementById("list");
+    contactJournal.innerHTML = "";
+
+    contactList.contacts.forEach((contact) => {
+        const cardDiv = 
+        `
+        <button class="card" onclick="showDetails()">
+            <img id="card-img" src="${contact.img}"><img>
+            <div id="infos">
+                <h3>${contact.name}</h3>
+                <p>Celular: ${contact.celphone}</p>
+                <p>Telefone: ${contact.fixPhone}</p>
         </button>
         `
         contactJournal.innerHTML += cardDiv;
