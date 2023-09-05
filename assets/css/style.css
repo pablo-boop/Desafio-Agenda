@@ -145,6 +145,12 @@ input {
     border-radius: 0.2rem;
 }
 
+#actions button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
 .hidden {
     display: none;
 }

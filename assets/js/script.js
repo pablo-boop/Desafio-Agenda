@@ -1,5 +1,6 @@
 class Contact {
-    constructor(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites) {
+    constructor(id, name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites) {
+        this.id = id;
         this.name = name;
         this.fixPhone = fixPhone;
         this.celphone = celphone;
@@ -25,7 +26,7 @@ class ContactList {
         } else if(!isURLValida(img)) {
             sendMSG("URL inválido", "error")
         } else {
-            const contact = new Contact(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites = false);
+            const contact = new Contact(generateId(), name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites = false);
             sendMSG("Parabéns, cadastro feito com sucesso!", "success")
             this.contacts.push(contact)
             cleanInputs()
@@ -82,31 +83,22 @@ class ContactList {
         
         return `${dd} / ${mm} / ${yy}`
     }
+
+    deleteContact(id) {
+        this.contacts = this.contacts.filter((contact) => contact.id !== id);
+    }
 }
 
 const contactList = new ContactList();
 
-function heartClick() {
-    document.getElementById("list").classList.remove("hidden");
-    const contactJournal = document.getElementById("list");
-    contactJournal.innerHTML = "";
+function generateId() {
+    return Math.floor(Math.random() * 3000);
+}
 
-    contactList.contacts.forEach((contact) => {
-        const cardDiv = 
-        `
-        <button class="card" onclick="showDetails()">
-            <div id="top">
-                <img id="card-img" src="${contact.img}"><img>
-                    <i class="fa-regular fa-heart"></i>
-            </div>
-            <div id="infos">
-                <h3>${contact.name}</h3>
-                <p>Celular: ${formatedCellphone(contact.celphone)}</p>
-                <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
-        </button>
-        `
-        contactJournal.innerHTML += cardDiv;
-    });
+function removeContact(id) {
+    contactList.deleteContact(id);
+    showDetails();
+    showContacts();
 }
 
 function showContacts() {
@@ -165,6 +157,11 @@ function showDetails() {
                 <a href="https://github.com/${contact.github}" target="_blank">
                     <img class="icons" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"></img>
                 </a>
+            </div>
+            <div id="actions">
+                <button onclick="removeContact(${contact.id})">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             </div>
         </div>
         `
