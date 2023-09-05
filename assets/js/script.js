@@ -130,6 +130,7 @@ function showContacts() {
         <button class="card" onclick="showDetails()">
            <div>
             <img id="card-img-detail" src="${contact.img}"><img>
+            <h3>${contact.name}</h3>
             <p>Celular: ${formatedCellphone(contact.celphone)}</p>
             <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
            </div>
@@ -151,22 +152,24 @@ function showFavorites() {
     const favoritesList = document.getElementById("favorites");
     favoritesList.innerHTML = "";
 
-    contactList.favoriteContacts.forEach((contact) => {
-        const cardDiv = 
-        `
-        <div id="global-list">
-        <button class="card" onclick="showDetails()">
-           <div>
-            <img id="card-img-detail" src="${contact.img}"><img>
-            <p>Celular: ${formatedCellphone(contact.celphone)}</p>
-            <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
-           </div>
-           <div>
-           </div>
-        </button>
-        </div>
-        `
-        favoritesList.innerHTML += cardDiv;
+    contactList.contacts.forEach((contact) => {
+        if(contact.favorites == true) {
+            const favoriteDiv = 
+            `
+            <div id="global-list">
+            <button class="card" onclick="showDetails()">
+               <div>
+                <img id="card-img-detail" src="${contact.img}"><img>
+                <p>Celular: ${formatedCellphone(contact.celphone)}</p>
+                <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
+               </div>
+               <div>
+               </div>
+            </button>
+            </div>
+            `
+            favoritesList.innerHTML += favoriteDiv;
+        }
     });
 }
 
@@ -183,6 +186,7 @@ function showDetails() {
             <img id="card-img-detail" src="${contact.img}"><img>
             <div id="infos-details">
                 <h3>${contact.name}</h3>
+                <p>${contact.id}</p>
                 <p>Celular: ${formatedCellphone(contact.celphone)}</p>
                 <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
                 <p>Data de aniversário: ${contactList.formatDate(contact.date)}</p>
@@ -211,7 +215,7 @@ function showDetails() {
             </div>
         </div>
         `
-        detailsContact.innerHTML += divDetails;
+        detailsContact.innerHTML = divDetails;
     });
 }
 

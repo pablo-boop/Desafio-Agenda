@@ -159,11 +159,16 @@ input {
 }
 
 #global-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: #e6e6e6;
     border-radius: 0.2rem;
     width: 100%;
     height: auto;
     padding: 1rem;
+    margin: 1rem;
 }
 
 .hidden {
