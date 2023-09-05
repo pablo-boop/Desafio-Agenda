@@ -110,6 +110,7 @@ function removeContact(id) {
     contactList.deleteContact(id);
     showDetails();
     showContacts();
+    showFavorites();
 }
 
 function favoriteContact(id) {
@@ -147,30 +148,31 @@ function showContacts() {
 }
 
 function showFavorites() {
+    if(contactList.favoriteContacts.length != 0) {
+        document.getElementById("favorites").classList.remove("hidden");
+        const favoritesList = document.getElementById("favorites");
+    
+        contactList.favoriteContacts.forEach((contact) => {
+                const favoriteDiv = 
+                `
+                <div id="global-list">
+                <button class="card" onclick="showDetails()">
+                   <div>
+                    <img id="card-img-detail" src="${contact.img}"><img>
+                    <h2>${contact.name}</h2>
+                    <p>Celular: ${formatedCellphone(contact.celphone)}</p>
+                    <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
+                   </div>
+                   <div id="actions">
+                </button>
+                </div>
+                `
+                favoritesList.innerHTML += favoriteDiv;
+        });
+    } else {
+        document.getElementById("favorites").classList.add("hidden");
+    }
 
-    document.getElementById("favorites").classList.remove("hidden");
-    const favoritesList = document.getElementById("favorites");
-    favoritesList.innerHTML = "";
-
-    contactList.contacts.forEach((contact) => {
-        if(contact.favorites == true) {
-            const favoriteDiv = 
-            `
-            <div id="global-list">
-            <button class="card" onclick="showDetails()">
-               <div>
-                <img id="card-img-detail" src="${contact.img}"><img>
-                <p>Celular: ${formatedCellphone(contact.celphone)}</p>
-                <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
-               </div>
-               <div>
-               </div>
-            </button>
-            </div>
-            `
-            favoritesList.innerHTML += favoriteDiv;
-        }
-    });
 }
 
 function showDetails() {
