@@ -86,7 +86,7 @@ class ContactList {
 const contactList = new ContactList();
 
 function showDetails() {
-    document.getElementById("details-card").classList.remove("hidden")
+    document.getElementById("details-card").classList.remove("hidden");
     const detailsContact = document.getElementById("details-card");
     detailsContact.innerHTML = "";
 
@@ -96,8 +96,8 @@ function showDetails() {
             <img id="card-img" src="${contact.img}"><img>
             <div id="infos">
                 <h3>${contact.name}</h3>
-                <p>Celular: ${contact.celphone}</p>
-                <p>Telefone: ${contact.fixPhone}</p>
+                <p>Celular: ${formatedCellphone(contact.celphone)}</p>
+                <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
                 <p>Data de aniversário: ${contactList.formatDate(contact.date)}</p>
                 <p>Idade: ${contactList.calculateAge(contact.date)}</p>
                 <p>Signo: ${contactList.getZodiacSign(contact.date)}</p>
@@ -133,8 +133,8 @@ function showContacts() {
             <img id="card-img" src="${contact.img}"><img>
             <div id="infos">
                 <h3>${contact.name}</h3>
-                <p>Celular: ${contact.celphone}</p>
-                <p>Telefone: ${contact.fixPhone}</p>
+                <p>Celular: ${formatedCellphone(contact.celphone)}</p>
+                <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
         </button>
         `
         contactJournal.innerHTML += cardDiv;
@@ -214,4 +214,16 @@ function isURLValida(url) {
     } else {
         return false;
     }
+}
+
+function formatedCellphone(cellphone) {
+    console.log("Passou pela funcao formatedCellphone()");
+
+    let cellphoneArray = cellphone.split("");
+    let cellphoneFormated = "(" + cellphoneArray[0] + cellphoneArray[1] + ")"
+        + " " + cellphoneArray[2] + cellphoneArray[3] + cellphoneArray[4]
+        + cellphoneArray[5] + cellphoneArray[6] + "-"
+        + cellphoneArray[7] + cellphoneArray[8]
+        + cellphoneArray[9] + cellphoneArray[10];
+    return cellphoneFormated;
 }
