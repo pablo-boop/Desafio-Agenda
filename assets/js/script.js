@@ -126,8 +126,7 @@ function showContacts() {
     contactList.contacts.forEach((contact) => {
         const cardDiv =
             `
-        <div id="global-list">
-        <button class="card" onclick="showDetails()">
+        <div id="global-list" class="card"  onclick="showDetails(${contact.id})">
            <div id="content-card">
             <img id="card-img-detail" src="${contact.img}"><img>
             <p>Celular: ${formatedCellphone(contact.celphone)}</p>
@@ -138,7 +137,6 @@ function showContacts() {
             <i class="fa-solid fa-heart"></i>
             </button>
            </div>
-        </button>
         </div>
         `
         contactJournal.innerHTML += cardDiv;
@@ -149,7 +147,7 @@ function showFavorites() {
     document.getElementById("favorites").classList.remove("hidden");
     const favoritesList = document.getElementById("favorites");
     contactList.contacts.forEach((contact) => {
-        if(contact.favorites == true) {
+        if (contact.favorites == true) {
             const cardDiv =
                 `
                 <div id="global-list-favorites">
@@ -169,15 +167,15 @@ function showFavorites() {
     });
 }
 
-function showDetails() {
+function showDetails(id) {
     console.log("Passou aqui");
     document.getElementById("details-card").classList.remove("hidden");
     const detailsContact = document.getElementById("details-card");
     detailsContact.innerHTML = "";
 
-    contactList.contacts.forEach((contact) => {
-            const divDetails =
-                `
+    const contact = contactList.contacts.find((contact) => contact.id == id)
+    const divDetails =
+        `
             <div id="global-detail">
                 <img id="card-img-detail" src="${contact.img}"><img>
                 <div id="infos-details">
@@ -211,8 +209,7 @@ function showDetails() {
                 </div>
             </div>
             `
-            detailsContact.innerHTML += divDetails;
-    });
+    detailsContact.innerHTML += divDetails;
 }
 
 function createContact() {

@@ -101,9 +101,8 @@ input {
     text-align: start;
 }
 
-#card-img {
-    width: 30%;
-    height: auto;
+#content-card img {
+    width: 40%;
 }
 
 #social {
@@ -182,7 +181,7 @@ input {
     justify-content: center;
     background-color: #e6e6e6;
     border-radius: 0.2rem;
-    width: 100%;
+    width: 50vw;
     height: auto;
     padding: 1rem;
     margin: 1rem;
