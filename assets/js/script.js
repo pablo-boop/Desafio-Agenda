@@ -21,7 +21,7 @@ class ContactList {
         this.favoriteContacts = [];
     }
 
-    add(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites) {
+    add(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github) {
         if(emptyInputs()) {
             sendMSG("Preencha todos os campos", "error")
         } else if(!isURLValida(img)) {
