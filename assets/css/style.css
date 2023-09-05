@@ -145,10 +145,20 @@ input {
     border-radius: 0.2rem;
 }
 
-#actions button {
+.actions-button {
     border: none;
     background-color: transparent;
     cursor: pointer;
+    width: auto;
+    height: auto;
+}
+
+#global-list {
+    background-color: #e6e6e6;
+    border-radius: 0.2rem;
+    width: 100%;
+    height: auto;
+    padding: 1rem;
 }
 
 .hidden {

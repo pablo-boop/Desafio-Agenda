@@ -18,6 +18,7 @@ class Contact {
 class ContactList {
     constructor() {
         this.contacts = [];
+        this.favoriteContacts = [];
     }
 
     add(name, fixPhone, celphone, img, date, mail, cep, city, instagram, github, favorites) {
@@ -84,6 +85,16 @@ class ContactList {
         return `${dd} / ${mm} / ${yy}`
     }
 
+    favoriteContact(id) {
+        this.contacts.forEach((contact) => {
+          if (contact.id == id) {
+            contact.favorites = true;
+          }
+          this.favoriteContacts.push(contact);
+        });
+
+    }
+
     deleteContact(id) {
         this.contacts = this.contacts.filter((contact) => contact.id !== id);
     }
@@ -101,6 +112,10 @@ function removeContact(id) {
     showContacts();
 }
 
+function favoriteContact(id) {
+    contactList.favoriteContact(id);
+}
+
 function showContacts() {
 
     document.getElementById("list").classList.remove("hidden");
@@ -110,16 +125,20 @@ function showContacts() {
     contactList.contacts.forEach((contact) => {
         const cardDiv = 
         `
+        <div id="global-list">
         <button class="card" onclick="showDetails()">
-            <div id="top">
-                <img id="card-img" src="${contact.img}"><img>
-                    <i class="fa-regular fa-heart"></i>
-            </div>
-            <div id="infos">
-                <h3>${contact.name}</h3>
-                <p>Celular: ${formatedCellphone(contact.celphone)}</p>
-                <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
+           <div>
+            <img id="card-img-detail" src="${contact.img}"><img>
+            <p>Celular: ${formatedCellphone(contact.celphone)}</p>
+            <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
+           </div>
+           <div>
+            <button class="actions-button" onclick="favoriteContact(${contact.id})">
+            <i class="fa-solid fa-heart"></i>
+            </button>
+           </div>
         </button>
+        </div>
         `
         contactJournal.innerHTML += cardDiv;
     });
@@ -159,8 +178,9 @@ function showDetails() {
                 </a>
             </div>
             <div id="actions">
-                <button onclick="removeContact(${contact.id})">
-                    <i class="fa-solid fa-trash"></i>
+                <button class="actions-button" onclick="removeContact(${contact.id})">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </button>
             </div>
         </div>
