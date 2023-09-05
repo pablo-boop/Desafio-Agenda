@@ -114,6 +114,7 @@ function removeContact(id) {
 
 function favoriteContact(id) {
     contactList.favoriteContact(id);
+    showFavorites()
 }
 
 function showContacts() {
@@ -141,6 +142,31 @@ function showContacts() {
         </div>
         `
         contactJournal.innerHTML += cardDiv;
+    });
+}
+
+function showFavorites() {
+
+    document.getElementById("favorites").classList.remove("hidden");
+    const favoritesList = document.getElementById("favorites");
+    favoritesList.innerHTML = "";
+
+    contactList.favoriteContacts.forEach((contact) => {
+        const cardDiv = 
+        `
+        <div id="global-list">
+        <button class="card" onclick="showDetails()">
+           <div>
+            <img id="card-img-detail" src="${contact.img}"><img>
+            <p>Celular: ${formatedCellphone(contact.celphone)}</p>
+            <p>Telefone: ${formatedCellphone(contact.fixPhone)}</p>
+           </div>
+           <div>
+           </div>
+        </button>
+        </div>
+        `
+        favoritesList.innerHTML += cardDiv;
     });
 }
 
